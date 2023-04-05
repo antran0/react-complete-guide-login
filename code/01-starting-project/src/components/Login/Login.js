@@ -5,7 +5,6 @@ import classes from "./Login.module.css";
 import Button from "../UI/Button/Button";
 
 const Login = (props) => {
-  console.log("Login component function executing");
   const [enteredEmail, setEnteredEmail] = useState("");
   const [emailIsValid, setEmailIsValid] = useState();
   const [enteredPassword, setEnteredPassword] = useState("");
@@ -13,10 +12,17 @@ const Login = (props) => {
   const [formIsValid, setFormIsValid] = useState(false);
 
   useEffect(() => {
-    console.log("Login.useEffect");
-    setFormIsValid(
-      enteredEmail.includes("@") && enteredPassword.trim().length > 6
-    );
+    const tid = setTimeout(() => {
+      console.log("Checking validity");
+      setFormIsValid(
+        enteredEmail.includes("@") && enteredPassword.trim().length > 6
+      );
+    }, 500);
+
+    return () => {
+      console.log("Login.useEffect.cleanUp");
+      clearTimeout(tid);
+    };
   }, [enteredEmail, enteredPassword]);
 
   const emailChangeHandler = (event) => {
